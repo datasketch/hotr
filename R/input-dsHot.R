@@ -47,8 +47,6 @@ dsHot <- function(inputId, data = NULL, dic = NULL,
     manualRowMove = TRUE,
     manualColumnMove = TRUE
   )
-  if(shiny::is.reactive(data))
-    data <- data()
   f <- datafringe::fringe(data)
 
   options <- modifyList(defaultOpts, options %||% list())
