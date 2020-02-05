@@ -28,7 +28,7 @@
         var hotSettings = {
             data: params.dataObject,
             columns: params.dataDic,
-            stretchH: 'none',
+            stretchH: 'all',
             width: params.hotOpts.width || $(el).parent().width(),
             autoWrapRow: params.hotOpts.autoWrapRow,
             height: params.hotOpts.height,
