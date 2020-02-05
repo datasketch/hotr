@@ -1,21 +1,32 @@
-Package: rhandsontableplus
-Title: Handsontable wrapper
+Package: hotr
+Title: Handsontable Wrapper for Shiny Application Input 
 Version: 0.1
 Authors@R: c(
-   person("Camila", "Achuri", email = "camila@randommonkey.io", role = c("aut", "cre")),
+   person("Juan Pablo", "Marin Diaz", email = "jpmarindiaz@gmail.com", role = "cre"),
+   person("Camila", "Achuri", email = "camila@randommonkey.io", role = "aut"),
    person("David", "Daza", email = "david@randommonkey.io", role = "aut"),
-   person("Juan Pablo", "Marín", email = "jpmarindiaz@randommonkey.io", role = "aut"))
-Description: Handsontable wrapper.
+   person("Wim", "Van der Ham", email = "wfjvdham@gmail.com", role = "ctb")
+   )
+Description: Handsontable Wrapper for R to be used with in Shiny Applications
+    as a reactive input. It features clientside javascript data validations for
+    data inputs as well as the use of custom data types for columns provided as
+    dictionaries  or data frame metadata.
+URL: http://github.com/datasketch/hotr
 Depends:
     R (>= 3.1.0)
 Imports:
     testthat,
-    shiny (>= 0.14),
+    shiny,
     htmltools,
     jsonlite,
     grDevices,
-    purrr
-License: GPL-3 | file LICENSE
+    purrr,
+    datafringe,
+    tibble
+Suggests:
+    rlang,
+    testthat
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2

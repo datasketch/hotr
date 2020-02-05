@@ -1,6 +1,7 @@
 context("dsHot")
 
 test_that("inputId Control", {
+  library(datafringe) ## NEED TO REMOVE DEPENDENCY IN TESTS
 
   tagTable <- dsHot(inputId = "id_tabla", data = mtcars)
   expect_equal(tagTable$attribs$id, "id_tabla")
