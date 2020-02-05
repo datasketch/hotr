@@ -1,5 +1,5 @@
 library(shiny)
-library(rhandsontableplus)
+library(hotr)
 library(datafringe)
 
 ui <- fluidPage(
