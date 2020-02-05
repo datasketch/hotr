@@ -58,11 +58,14 @@
                 }
                 //Get current ctype
                 var ctype = this.instance.getDataAtCell(0, col);
-                if (ctype == 'Numeric') {
+                if (ctype == 'Num') {
                     this.validator = valiNumeric;
                 }
-                if (ctype == 'Categoric') {
+                if (ctype == 'Cat') {
                     this.validator = valiCategoric;
+                }
+                if (ctype == 'Dat') {
+                    this.validator = valiDate;
                 }
             },
             // Bind event after selection
@@ -87,6 +90,20 @@
                 // Filter dictionary and save under global window object
                 // Save under global window object
                 window.userSelectedColumns = filterDict.apply(this, [selected])
+            },
+            afterChange: function onChange(changes, source) {
+              if (!changes) {
+                  return;
+              }
+              var instance = this;
+              changes.forEach(function (change) {
+                  var row = change[0];
+                  var col = change[1];
+                  var colIdx = instance.propToCol(col);
+                  if (row === 0) {
+                    instance.validateColumns([colIdx])
+                  }
+              });
             }
         };
         var filterDict = function(info) {
