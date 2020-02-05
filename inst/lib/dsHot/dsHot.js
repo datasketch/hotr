@@ -33,7 +33,7 @@
             autoWrapRow: params.hotOpts.autoWrapRow,
             height: params.hotOpts.height,
             maxRows: params.hotOpts.maxRows + 2,
-            rowHeaders: [null, null].concat(rowsIdx),
+            rowHeaders: ['', ''].concat(rowsIdx),
             colHeaders: true,
             fixedRowsTop: 2,
             // preventOverflow: 'horizontal',
