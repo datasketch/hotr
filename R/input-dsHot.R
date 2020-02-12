@@ -22,7 +22,7 @@
 #' server <- function(input, output) {
 #'
 #'output$dstable <- renderUI({
-#'  dsHot("indata1", data = mtcars, options = list(height = 300))
+#'  hotr("indata1", data = mtcars, options = list(height = 300))
 #'})
 #'
 #'output$test <- renderPrint({
@@ -35,7 +35,7 @@
 #'
 #'
 #' @export
-dsHot <- function(inputId, data = NULL, dic = NULL,
+hotr <- function(inputId, data = NULL, dic = NULL,
                   options = NULL){
   if(is.null(data)) return()
   if(shiny::is.reactive(data))
@@ -56,8 +56,8 @@ dsHot <- function(inputId, data = NULL, dic = NULL,
     directoryPath=system.file("lib/handsontable",
                               package='hotr'))
   addResourcePath(
-    prefix='dsHot',
-    directoryPath=system.file("lib/dsHot",
+    prefix='hotr',
+    directoryPath=system.file("lib/hotr",
                               package='hotr'))
 
   id <- inputId
@@ -79,9 +79,9 @@ dsHot <- function(inputId, data = NULL, dic = NULL,
       )),
     shiny::tags$link(rel = 'stylesheet',
                      type = 'text/css',
-                     href = 'dsHot/dsHot.css'),
-    shiny::tags$script(src = 'dsHot/dsHotHelpers.js'),
-    shiny::tags$script(src = 'dsHot/dsHot.js')
+                     href = 'hotr/hotr.css'),
+    shiny::tags$script(src = 'hotr/hotrHelpers.js'),
+    shiny::tags$script(src = 'hotr/hotr.js')
   )
 
   shiny::div(l,
