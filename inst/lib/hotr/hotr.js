@@ -31,14 +31,16 @@
             stretchH: 'all',
             width: params.hotOpts.width || $(el).parent().width(),
             autoWrapRow: params.hotOpts.autoWrapRow,
-            height: params.hotOpts.height,
-            maxRows: params.hotOpts.maxRows + 2,
+            height: params.hotOpts.height || $(el).parent().height(),
+            maxRows: params.hotOpts.maxRows + 10,
             rowHeaders: ['', ''].concat(rowsIdx),
             colHeaders: true,
             fixedRowsTop: 2,
             // preventOverflow: 'horizontal',
             manualRowMove: params.hotOpts.manualRowMove,
             manualColumnMove: params.hotOpts.manualColumnMove,
+            manualColumnFreeze: true, // Needed for context menu's freeze_column and unfreeze_column options to work
+            contextMenu: ['row_above', 'row_below', 'remove_row', 'undo', 'redo', 'cut', 'copy', 'freeze_column', 'unfreeze_column'],
             selectionMode: "multiple",
             // invalidCellClassName: 'highlight--error',
             cells: function(row, col, prop) {

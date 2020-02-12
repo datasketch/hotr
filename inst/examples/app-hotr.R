@@ -10,7 +10,7 @@ ui <- fluidPage(
         uiOutput('dstable')
   ),
   column(4,
-         hotr("indata2", data = cars, options = list(height = 200))
+         hotr("indata2", data = cars)
   )
 )
 server <- function(input,output,session){

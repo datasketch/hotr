@@ -42,7 +42,6 @@ hotr <- function(inputId, data = NULL, dic = NULL,
     data <- data()
   defaultOpts <- list(
     maxRows = NULL %||% nrow(data),
-    height = 450,
     width = NULL,
     manualRowMove = TRUE,
     manualColumnMove = TRUE
