@@ -7,9 +7,9 @@
 #'
 .onLoad <- function(...) {
   #shiny::addResourcePath('shinyWidgets', system.file('www', package = 'shinyWidgets'))
-  try({ shiny::removeInputHandler("dsHotBinding") })
+  try({ shiny::removeInputHandler("hotrBinding") })
 
-  shiny::registerInputHandler("dsHotBinding", function(x, ...) {
+  shiny::registerInputHandler("hotrBinding", function(x, ...) {
     if (is.null(x))
       NULL
     else{
