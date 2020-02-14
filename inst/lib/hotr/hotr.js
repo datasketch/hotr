@@ -35,7 +35,8 @@ $.extend(hotrBinding, {
         $(el)
           .parent()
           .height(),
-      maxRows: params.hotOpts.maxRows + 10,
+      // 23px is the default height defined by Handsontable
+      minSpareRows: Math.floor($(el).parent().height() / 23) - params.dataObject.length,
       rowHeaders: ["", ""].concat(rowsIdx),
       colHeaders: true,
       fixedRowsTop: 2,
@@ -149,8 +150,8 @@ $.extend(hotrBinding, {
       });
     };
     const hot = new Handsontable(el, hotSettings);
-    hot.validateCells();
     state.hotInstance = hot;
+    state.hotInstance.validateCells();
   },
   getValue: function(el) {
     const hot = state.hotInstance;
