@@ -1,70 +1,72 @@
-
 // More renderers https://handsontable.com/blog/articles/getting-started-with-cell-renderers
-ctypeRenderer = function (instance, td, row, col, prop, value, cellProperties) {
+function ctypeRenderer(instance, td, row, col, prop, value, cellProperties) {
   Handsontable.renderers.DropdownRenderer.apply(this, arguments);
-  td.style.backgroundColor = '#0E0329';
-  td.style.fontWeight = 'italic';
-  td.style.color = '#A6CEDE';
-  td.className = 'tableCtype';
-};
+  td.className = 'table-ctype';
+}
 
 // https://docs.handsontable.com/5.0.1/tutorial-cell-types.html
-headRenderer = function (instance, td, row, col, prop, value, cellProperties) {
+function headRenderer(instance, td, row, col, prop, value, cellProperties) {
   Handsontable.renderers.TextRenderer.apply(this, arguments);
-  td.style.backgroundColor = '#DDD';
-  td.style.fontWeight = 'italic';
-  td.style.color = '#B70F7F';
-  td.className = 'tableHeader';
-};
+  td.className = 'table-header';
+}
 
-invalidRenderer = function (instance, td, row, col, prop, value, cellProperties) {
+invalidRenderer = function(
+  instance,
+  td,
+  row,
+  col,
+  prop,
+  value,
+  cellProperties
+) {
   Handsontable.renderers.TextRenderer.apply(this, arguments);
   // td.style.backgroundColor = '#F00!important';
   td.className = 'invalidCell';
 };
 // var valiNumeric = /[0-9]/g;
-var valiNumeric = function (value,callback) {
+var valiNumeric = function(value, callback) {
   if (/[0-9]/g.test(value)) {
     callback(true);
-  }
-  else {
+  } else {
     callback(false);
   }
-}
+};
 
-var valiCategoric = function (value,callback) {
+var valiCategoric = function(value, callback) {
   if (/[a-z]/g.test(value)) {
     callback(true);
-  }
-  else {
+  } else {
     callback(false);
   }
-}
+};
 
-var valiDate = function (value,callback) {
-  if (/^(?:[1-9]\d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:Z|[+-][01]\d:[0-5]\d)$/.test(value)) {
+var valiDate = function(value, callback) {
+  if (
+    /^(?:[1-9]\d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:Z|[+-][01]\d:[0-5]\d)$/.test(
+      value
+    )
+  ) {
     callback(true);
-  }
-  else {
+  } else {
     callback(false);
   }
-}
+};
 
 Handsontable.validators.registerValidator('valiNumeric', valiNumeric);
 Handsontable.validators.registerValidator('valiCategoric', valiCategoric);
 Handsontable.validators.registerValidator('valiDate', valiDate);
 
-function formatDataParams (el) {
+function formatDataParams(el) {
   var dataDic = JSON.parse(el.dataset.dic);
   var dataInput = JSON.parse(el.dataset.table);
   var hotOpts = JSON.parse(el.dataset.hotopts);
   var dataHeaders = [];
-  dataHeaders[0] = dataDic.slice().reduce(function (final, item) {
+  dataHeaders[0] = dataDic.slice().reduce(function(final, item) {
     item.data = item.id;
     final[item.data] = item.ctype;
     return final;
   }, {});
-  dataHeaders[1] = dataDic.slice().reduce(function (final, item) {
+  dataHeaders[1] = dataDic.slice().reduce(function(final, item) {
     item.data = item.id;
     final[item.data] = item.label;
     return final;
@@ -76,9 +78,8 @@ function formatDataParams (el) {
     dataDic: dataDic,
     dataObject: dataObject,
     hotOpts: hotOpts
-  }
+  };
 }
-
 
 function parseHotInput(d, userSelectedCols) {
   var letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
@@ -92,7 +93,7 @@ function parseHotInput(d, userSelectedCols) {
   }
 
   function dicToDataframe(arr) {
-    return arrayToObj(transpose(arr), ["ctype", "label", "id"])
+    return arrayToObj(transpose(arr), ['ctype', 'label', 'id']);
   }
 
   function arrayToObj(arr, keys) {
@@ -103,13 +104,13 @@ function parseHotInput(d, userSelectedCols) {
       }, {});
       return obj;
     });
-  };
+  }
 
   var dic_ = dicToDataframe(dic);
 
   //SELECT columns at random
-  var shuffled = dic_.sort(() => .5 - Math.random()); // shuffle
-  var selected = shuffled.slice(0,2); //get sub-array of first n elements AFTER shuffle
+  var shuffled = dic_.sort(() => 0.5 - Math.random()); // shuffle
+  var selected = shuffled.slice(0, 2); //get sub-array of first n elements AFTER shuffle
   // console.log('Selected columns');
   // console.log(selected);
   // console.log('Data')
@@ -118,6 +119,6 @@ function parseHotInput(d, userSelectedCols) {
   return {
     data: arrayToObj(data, letter_ids),
     dic: dicToDataframe(dic),
-    selectedCols: userSelectedCols 
-  }
+    selectedCols: userSelectedCols
+  };
 }

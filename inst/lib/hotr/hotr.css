@@ -1,50 +1,24 @@
-@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
 
 .handsontable {
   color: #8097A4;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 11pt;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.875rem;
   max-width: 100%;
 }
 
-
-/* table header*/
 .handsontable th {
   background-color: #EEF3F5;
   color: #8097A4;
-  font-size: 13pt;
+  font-size: 1rem;
 }
 
-
-.tableHeader {
-  background-color: #8097A4 !important;
-  color: #FFFFFF !important;
+.handsontable td.table-ctype {
+  background-color: #0e0329;
+  color: #a6cede;
 }
 
-.tableCtype {
-  background-color: #E2EAED !important;
-  color: #8097A4 !important;
+.handsontable td.table-header {
+  background-color:#dddddd;
+  color:#b70f7f;
 }
-
-.ht_master .wtHolder::-webkit-scrollbar
-{
-  width: auto;
-}
-
-.ht_master .wtHolder::-webkit-scrollbar-track
-{
-  background: #e2eaed;
-}
-
-.ht_master .wtHolder::-webkit-scrollbar-thumb
-{
-  background: #b70f7f;
-}
-
-.ht_master .wtHolder::-webkit-scrollbar:focus {
-    overflow: scroll;
-    display:block;
-    background: #b70f7f;
-}
-
-

@@ -1,29 +1,20 @@
-const hotrBinding = new Shiny.InputBinding();
+let hotrBinding = new Shiny.InputBinding();
 let handleSubscribe = null;
 let state = { userSelectedColumns: null, hotInstance: null };
 
-$.extend(hotrBinding, {
+hotrBinding = Object.assign(hotrBinding, {
   find: function(scope) {
-    return $(scope).find(".hot");
+    return $(scope).find('.hot');
   },
   initialize: function(el) {
-    const settings = {
-      maxRows: 50,
-      availableCtypes: ["Num", "Cat", "Dat", "Gnm", "Gcd"]
-    };
-    const rowsIdx = Array.from(new Array(settings.maxRows), function(
-      val,
-      index
-    ) {
-      return index + 1;
-    });
+    const availableCtypes = ['Num', 'Cat', 'Dat', 'Gnm', 'Gcd'];
 
     const params = formatDataParams(el);
-    console.log("params", params);
+    console.log('params', params);
     const hotSettings = {
       data: params.dataObject,
       columns: params.dataDic,
-      stretchH: "all",
+      stretchH: 'all',
       width:
         params.hotOpts.width ||
         $(el)
@@ -36,50 +27,52 @@ $.extend(hotrBinding, {
           .parent()
           .height(),
       // 23px is the default height defined by Handsontable
-      minSpareRows: Math.floor($(el).parent().height() / 23) - params.dataObject.length,
-      rowHeaders: ["", ""].concat(rowsIdx),
+      minSpareRows:
+        Math.floor(
+          $(el)
+            .parent()
+            .height() / 23
+        ) - params.dataObject.length,
+      rowHeaders: true,
       colHeaders: true,
       fixedRowsTop: 2,
       manualRowMove: params.hotOpts.manualRowMove,
       manualColumnMove: params.hotOpts.manualColumnMove,
       manualColumnFreeze: true, // Needed for context menu's freeze_column and unfreeze_column options to work
       contextMenu: [
-        "row_above",
-        "row_below",
-        "remove_row",
-        "undo",
-        "redo",
-        "cut",
-        "copy",
-        "freeze_column",
-        "unfreeze_column"
+        'row_above',
+        'row_below',
+        'remove_row',
+        'undo',
+        'redo',
+        'cut',
+        'copy',
+        'freeze_column',
+        'unfreeze_column'
       ],
-      selectionMode: "multiple",
-      // invalidCellClassName: 'highlight--error',
+      selectionMode: 'multiple',
       cells: function(row, col, prop) {
-        // console.log(this);
         if (row === 0) {
           this.renderer = ctypeRenderer;
-          this.type = "dropdown";
-          this.source = settings.availableCtypes;
+          this.type = 'dropdown';
+          this.source = availableCtypes;
           this.validator = null;
           return this;
         }
         if (row === 1) {
-          // console.log(row)
           this.renderer = headRenderer;
           this.validator = null;
           return this;
         }
-        //Get current ctype
+        // Get current ctype
         var ctype = this.instance.getDataAtCell(0, col);
-        if (ctype == "Num") {
+        if (ctype == 'Num') {
           this.validator = valiNumeric;
         }
-        if (ctype == "Cat") {
+        if (ctype == 'Cat') {
           this.validator = valiCategoric;
         }
-        if (ctype == "Dat") {
+        if (ctype == 'Dat') {
           this.validator = valiDate;
         }
       },
@@ -156,22 +149,22 @@ $.extend(hotrBinding, {
   getValue: function(el) {
     const hot = state.hotInstance;
     const userSelectedCols = state.userSelectedColums;
-    console.log("selectedCols", state.userSelectedColums);
+    /*console.log('selectedCols', state.userSelectedColums);*/
     return JSON.stringify(parseHotInput(hot.getData(), userSelectedCols));
   },
   subscribe: function(el, callback) {
     handleSubscribe = function(event) {
       callback();
     };
-    el.addEventListener("change", handleSubscribe);
-    el.addEventListener("click", handleSubscribe);
+    el.addEventListener('change', handleSubscribe);
+    el.addEventListener('click', handleSubscribe);
   },
   unsubscribe: function(el) {
-    el.removeEventListener("change", handleSubscribe);
-    el.removeEventListener("click", handleSubscribe);
+    el.removeEventListener('change', handleSubscribe);
+    el.removeEventListener('click', handleSubscribe);
   },
   getType: function() {
-    return "hotrBinding";
+    return 'hotrBinding';
   }
 });
 
