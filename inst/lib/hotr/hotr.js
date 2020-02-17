@@ -14,13 +14,13 @@ hotrBinding = Object.assign(hotrBinding, {
     const hotSettings = {
       data: params.dataObject,
       columns: params.dataDic,
-      stretchH: 'all',
+      manualRowMove: params.hotOpts.manualRowMove,
+      manualColumnMove: params.hotOpts.manualColumnMove,
       width:
         params.hotOpts.width ||
         $(el)
           .parent()
           .width(),
-      autoWrapRow: params.hotOpts.autoWrapRow,
       height:
         params.hotOpts.height ||
         $(el)
@@ -33,11 +33,10 @@ hotrBinding = Object.assign(hotrBinding, {
             .parent()
             .height() / 23
         ) - params.dataObject.length,
+      stretchH: 'all',
       rowHeaders: true,
       colHeaders: true,
       fixedRowsTop: 2,
-      manualRowMove: params.hotOpts.manualRowMove,
-      manualColumnMove: params.hotOpts.manualColumnMove,
       manualColumnFreeze: true, // Needed for context menu's freeze_column and unfreeze_column options to work
       contextMenu: [
         'row_above',
@@ -50,13 +49,14 @@ hotrBinding = Object.assign(hotrBinding, {
         'freeze_column',
         'unfreeze_column'
       ],
-      selectionMode: 'multiple',
+      columnSorting: true,
+      sortIndicator: true,
       cells: function(row, col, prop) {
         if (row === 0) {
-          this.renderer = ctypeRenderer;
-          this.type = 'dropdown';
-          this.source = availableCtypes;
-          this.validator = null;
+          // this.renderer = ctypeRenderer;
+          /*this.type = 'dropdown';
+          this.source = availableCtypes;*/
+          // this.validator = null;
           return this;
         }
         if (row === 1) {
