@@ -1,14 +1,30 @@
 // More renderers https://handsontable.com/blog/articles/getting-started-with-cell-renderers
-function ctypeRenderer(instance, td, row, col, prop, value, cellProperties) {
+const ctypeRenderer = function(
+  instance,
+  td,
+  row,
+  col,
+  prop,
+  value,
+  cellProperties
+) {
   Handsontable.renderers.DropdownRenderer.apply(this, arguments);
   td.className = 'table-ctype';
-}
+};
 
 // https://docs.handsontable.com/5.0.1/tutorial-cell-types.html
-function headRenderer(instance, td, row, col, prop, value, cellProperties) {
+const headRenderer = function(
+  instance,
+  td,
+  row,
+  col,
+  prop,
+  value,
+  cellProperties
+) {
   Handsontable.renderers.TextRenderer.apply(this, arguments);
   td.className = 'table-header';
-}
+};
 
 invalidRenderer = function(
   instance,
@@ -57,10 +73,10 @@ Handsontable.validators.registerValidator('valiCategoric', valiCategoric);
 Handsontable.validators.registerValidator('valiDate', valiDate);
 
 function formatDataParams(el) {
-  var dataDic = JSON.parse(el.dataset.dic);
-  var dataInput = JSON.parse(el.dataset.table);
-  var hotOpts = JSON.parse(el.dataset.hotopts);
-  var dataHeaders = [];
+  const dataDic = JSON.parse(el.dataset.dic);
+  const dataInput = JSON.parse(el.dataset.table);
+  const hotOpts = JSON.parse(el.dataset.hotopts);
+  let dataHeaders = [];
   dataHeaders[0] = dataDic.slice().reduce(function(final, item) {
     item.data = item.id;
     final[item.data] = item.ctype;
@@ -72,7 +88,7 @@ function formatDataParams(el) {
     return final;
   }, {});
 
-  var dataObject = dataHeaders.concat(dataInput);
+  const dataObject = hotOpts.enableCTypes ? dataHeaders.concat(dataInput) : [dataHeaders[1]].concat(dataInput);
 
   return {
     dataDic: dataDic,

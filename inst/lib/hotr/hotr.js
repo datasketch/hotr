@@ -1,14 +1,28 @@
 let hotrBinding = new Shiny.InputBinding();
 let handleSubscribe = null;
-let state = { userSelectedColumns: null, hotInstance: null };
+let state = {
+  userSelectedColumns: null,
+  hotInstance: null
+};
+
+const sortFunction = function(column, order, compare) {
+  return function(sortOrder) {
+    return function(a, b) {
+      if (a[0] === 0) {
+        return -1;
+      } else if (b[0] === 0) {
+        return 1;
+      }
+      compare(column, order);
+    };
+  };
+};
 
 hotrBinding = Object.assign(hotrBinding, {
   find: function(scope) {
     return $(scope).find('.hot');
   },
   initialize: function(el) {
-    const availableCtypes = ['Num', 'Cat', 'Dat', 'Gnm', 'Gcd'];
-
     const params = formatDataParams(el);
     console.log('params', params);
     const hotSettings = {
@@ -51,15 +65,30 @@ hotrBinding = Object.assign(hotrBinding, {
       ],
       columnSorting: true,
       sortIndicator: true,
+      beforeColumnSort: function(column, order) {
+        this.updateSettings({
+          columns: params.dataDic.map(d =>
+            Object.assign(d, { sortFunction: sortFunction(column, order) })
+          )
+        });
+      },
       cells: function(row, col, prop) {
         if (row === 0) {
-          // this.renderer = ctypeRenderer;
-          /*this.type = 'dropdown';
-          this.source = availableCtypes;*/
-          // this.validator = null;
+          if (!params.hotOpts.enableCTypes) {
+            this.renderer = headRenderer;
+            this.validator = null;
+            return this;
+          }
+          this.renderer = ctypeRenderer;
+          this.type = 'dropdown';
+          this.source = params.hotOpts.ctypes;
+          this.validator = null;
           return this;
         }
         if (row === 1) {
+          if (!params.hotOpts.enableCTypes) {
+            return this;
+          }
           this.renderer = headRenderer;
           this.validator = null;
           return this;

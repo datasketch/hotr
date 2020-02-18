@@ -4,7 +4,14 @@
 \alias{hotr}
 \title{Handsontable wrapper}
 \usage{
-hotr(inputId, data = NULL, dic = NULL, options = NULL)
+hotr(
+  inputId,
+  data = NULL,
+  dic = NULL,
+  options = NULL,
+  enableCTypes = FALSE,
+  ctypes = c("Num", "Cat", "Dat", "Gnm", "Gcd")
+)
 }
 \arguments{
 \item{inputId}{The \code{input} slot that will be used to access the value.}

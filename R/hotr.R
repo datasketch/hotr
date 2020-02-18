@@ -36,7 +36,7 @@
 #'
 #' @export
 hotr <- function(inputId, data = NULL, dic = NULL,
-                  options = NULL){
+                  options = NULL, enableCTypes = FALSE, ctypes = c('Num', 'Cat', 'Dat', 'Gnm', 'Gcd')){
   if(is.null(data)) return()
   if(shiny::is.reactive(data))
     data <- data()
@@ -44,7 +44,9 @@ hotr <- function(inputId, data = NULL, dic = NULL,
     maxRows = NULL %||% nrow(data),
     width = NULL,
     manualRowMove = TRUE,
-    manualColumnMove = TRUE
+    manualColumnMove = TRUE,
+    enableCTypes = enableCTypes,
+    ctypes = ctypes
   )
   f <- datafringe::fringe(data)
 
