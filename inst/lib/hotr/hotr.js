@@ -5,19 +5,6 @@ let state = {
   hotInstance: null
 };
 
-const sortFunction = function(column, order, compare) {
-  return function(sortOrder) {
-    return function(a, b) {
-      if (a[0] === 0) {
-        return -1;
-      } else if (b[0] === 0) {
-        return 1;
-      }
-      compare(column, order);
-    };
-  };
-};
-
 hotrBinding = Object.assign(hotrBinding, {
   find: function(scope) {
     return $(scope).find('.hot');
@@ -65,13 +52,6 @@ hotrBinding = Object.assign(hotrBinding, {
       ],
       columnSorting: true,
       sortIndicator: true,
-      beforeColumnSort: function(column, order) {
-        this.updateSettings({
-          columns: params.dataDic.map(d =>
-            Object.assign(d, { sortFunction: sortFunction(column, order) })
-          )
-        });
-      },
       cells: function(row, col, prop) {
         if (row === 0) {
           if (!params.hotOpts.enableCTypes) {
