@@ -35,8 +35,14 @@
 #'
 #'
 #' @export
-hotr <- function(inputId, data = NULL, dic = NULL,
-                  options = NULL, enableCTypes = FALSE, ctypes = c('Num', 'Cat', 'Dat', 'Gnm', 'Gcd')){
+hotr <- function(inputId,
+                 data = NULL,
+                 dic = NULL,
+                 options = NULL,
+                 enableCTypes = FALSE,
+                 ctypes = c('Num', 'Cat', 'Dat', 'Gnm', 'Gcd'),
+                 order = NULL, ...){
+
   if(is.null(data)) return()
   if(shiny::is.reactive(data))
     data <- data()
@@ -48,6 +54,11 @@ hotr <- function(inputId, data = NULL, dic = NULL,
     enableCTypes = enableCTypes,
     ctypes = ctypes
   )
+
+  if (is.null(order)) data <- data
+  data <- data %>% dplyr::select(order, everything())
+
+
   f <- datafringe::fringe(data)
 
   options <- modifyList(defaultOpts, options %||% list())
@@ -64,6 +75,9 @@ hotr <- function(inputId, data = NULL, dic = NULL,
   id <- inputId
 
   data <- f$d
+
+
+
   dic <- dic %||% f$dic_$d
   dic$id <- letters[1:ncol(data)]
 

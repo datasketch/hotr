@@ -16,7 +16,7 @@ ui <- fluidPage(
 server <- function(input,output,session){
 
   output$dstable <- renderUI({
-    hotr("indata1", data = mtcars, options = list(height = 300))
+    hotr("indata1", data = mtcars, options = list(height = 300), order = c('cyl'))
   })
 
   output$debug <- renderPrint({

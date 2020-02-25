@@ -10,7 +10,9 @@ hotr(
   dic = NULL,
   options = NULL,
   enableCTypes = FALSE,
-  ctypes = c("Num", "Cat", "Dat", "Gnm", "Gcd")
+  ctypes = c("Num", "Cat", "Dat", "Gnm", "Gcd"),
+  order = NULL,
+  ...
 )
 }
 \arguments{
