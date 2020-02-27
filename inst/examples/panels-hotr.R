@@ -18,7 +18,7 @@ ui <- panelsPage(
   ),
   panel(title = "Second panel", color = "chardonnay", collapsed = FALSE, width = 350,
         head = NULL,
-        body = hotr('hot-table', data = mtcars[1:10,]),
+        body = hotr('hot-table', data = mtcars[1:10,], enableCTypes = TRUE),
         footer = NULL
   )
 )

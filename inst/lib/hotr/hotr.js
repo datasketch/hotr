@@ -13,6 +13,7 @@ hotrBinding = Object.assign(hotrBinding, {
     const params = formatDataParams(el);
     console.log('params', params);
     const hotSettings = {
+      licenseKey: 'non-commercial-and-evaluation',
       data: params.dataObject,
       columns: params.dataDic,
       manualRowMove: params.hotOpts.manualRowMove,
@@ -37,19 +38,11 @@ hotrBinding = Object.assign(hotrBinding, {
       stretchH: 'all',
       rowHeaders: true,
       colHeaders: true,
+      dropdownMenu: true,
+      filters: true,
       fixedRowsTop: 2,
       manualColumnFreeze: true, // Needed for context menu's freeze_column and unfreeze_column options to work
-      contextMenu: [
-        'row_above',
-        'row_below',
-        'remove_row',
-        'undo',
-        'redo',
-        'cut',
-        'copy',
-        'freeze_column',
-        'unfreeze_column'
-      ],
+      contextMenu: true,
       columnSorting: true,
       sortIndicator: true,
       cells: function(row, col, prop) {
@@ -110,8 +103,7 @@ hotrBinding = Object.assign(hotrBinding, {
           !cols.includes(col) && cols.push(col);
           return cols;
         }, []);
-        // Filter dictionary and save under global window object
-        // Save under global window object
+        // Filter dictionary and save under global state object
         state.userSelectedColums = filterDict.apply(this, [selected]);
       },
       afterChange: function onChange(changes, source) {
@@ -158,7 +150,6 @@ hotrBinding = Object.assign(hotrBinding, {
   getValue: function(el) {
     const hot = state.hotInstance;
     const userSelectedCols = state.userSelectedColums;
-    /*console.log('selectedCols', state.userSelectedColums);*/
     return JSON.stringify(parseHotInput(hot.getData(), userSelectedCols));
   },
   subscribe: function(el, callback) {
