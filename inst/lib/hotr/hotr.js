@@ -105,6 +105,7 @@ hotrBinding = Object.assign(hotrBinding, {
         }, []);
         // Filter dictionary and save under global state object
         state.userSelectedColums = filterDict.apply(this, [selected]);
+        console.log(state.userSelectedColums);
       },
       afterChange: function onChange(changes, source) {
         if (!changes) {
@@ -124,21 +125,10 @@ hotrBinding = Object.assign(hotrBinding, {
     var filterDict = function(info) {
       const props = [];
       const self = this;
-      if (info.layer > 0) {
-        // Each value represents a column
-        info.columns.map(function(col) {
-          let meta = self.getCellMeta(0, col);
-          props.push(meta.prop);
-        });
-      } else {
-        // The array represents a range
-        const start = info.columns[0];
-        const end = info.columns[1] || start;
-        for (let i = start; i <= end; i++) {
-          let meta = self.getCellMeta(0, i);
-          props.push(meta.prop);
-        }
-      }
+      info.columns.map(function(col) {
+        let meta = self.getCellMeta(0, col);
+        props.push(meta.prop);
+      });
       return params.dataDic.filter(function(item) {
         return props.includes(item.id);
       });
@@ -150,6 +140,7 @@ hotrBinding = Object.assign(hotrBinding, {
   getValue: function(el) {
     const hot = state.hotInstance;
     const userSelectedCols = state.userSelectedColums;
+    console.log(userSelectedCols);
     return JSON.stringify(parseHotInput(hot.getData(), userSelectedCols));
   },
   subscribe: function(el, callback) {
