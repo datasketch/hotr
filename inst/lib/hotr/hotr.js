@@ -2,7 +2,9 @@ let hotrBinding = new Shiny.InputBinding();
 let handleSubscribe = null;
 let state = {
   userSelectedColumns: null,
-  hotInstance: null
+  hotInstance: null,
+  headers: null,
+  enableCTypes: null
 };
 
 hotrBinding = Object.assign(hotrBinding, {
@@ -11,10 +13,14 @@ hotrBinding = Object.assign(hotrBinding, {
   },
   initialize: function(el) {
     const params = formatDataParams(el);
+    state.enableCTypes = params.hotOpts.enableCTypes;
+    state.headers = params.dataHeaders;
     console.log('params', params);
     const hotSettings = {
       licenseKey: 'non-commercial-and-evaluation',
-      data: params.dataObject,
+      data: state.enableCTypes
+        ? state.headers.concat(params.dataObject)
+        : [state.headers[1]].concat(params.dataObject),
       columns: params.dataDic,
       manualRowMove: params.hotOpts.manualRowMove,
       manualColumnMove: params.hotOpts.manualColumnMove,
@@ -47,7 +53,7 @@ hotrBinding = Object.assign(hotrBinding, {
       sortIndicator: true,
       cells: function(row, col, prop) {
         if (row === 0) {
-          if (!params.hotOpts.enableCTypes) {
+          if (!state.enableCTypes) {
             this.renderer = headRenderer;
             this.validator = null;
             return this;
@@ -59,7 +65,7 @@ hotrBinding = Object.assign(hotrBinding, {
           return this;
         }
         if (row === 1) {
-          if (!params.hotOpts.enableCTypes) {
+          if (!state.enableCTypes) {
             return this;
           }
           this.renderer = headRenderer;
@@ -140,8 +146,12 @@ hotrBinding = Object.assign(hotrBinding, {
   getValue: function(el) {
     const hot = state.hotInstance;
     const userSelectedCols = state.userSelectedColums;
+    const data = state.enableCTypes
+      ? hot.getData()
+      : [Object.values(state.headers[0])].concat(hot.getData());
     console.log(userSelectedCols);
-    return JSON.stringify(parseHotInput(hot.getData(), userSelectedCols));
+    console.log(data);
+    return JSON.stringify(parseHotInput(data, userSelectedCols));
   },
   subscribe: function(el, callback) {
     handleSubscribe = function(event) {

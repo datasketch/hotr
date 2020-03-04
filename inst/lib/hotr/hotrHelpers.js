@@ -88,10 +88,11 @@ function formatDataParams(el) {
     return final;
   }, {});
 
-  const dataObject = hotOpts.enableCTypes ? dataHeaders.concat(dataInput) : [dataHeaders[1]].concat(dataInput);
+  const dataObject = dataInput;
 
   return {
     dataDic: dataDic,
+    dataHeaders: dataHeaders,
     dataObject: dataObject,
     hotOpts: hotOpts
   };
