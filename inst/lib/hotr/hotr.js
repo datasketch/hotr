@@ -15,7 +15,6 @@ hotrBinding = Object.assign(hotrBinding, {
     const params = formatDataParams(el);
     state.enableCTypes = params.hotOpts.enableCTypes;
     state.headers = params.dataHeaders;
-    console.log('params', params);
     const hotSettings = {
       licenseKey: 'non-commercial-and-evaluation',
       data: state.enableCTypes
@@ -111,7 +110,6 @@ hotrBinding = Object.assign(hotrBinding, {
         }, []);
         // Filter dictionary and save under global state object
         state.userSelectedColums = filterDict.apply(this, [selected]);
-        console.log(state.userSelectedColums);
       },
       afterChange: function onChange(changes, source) {
         if (!changes) {
@@ -149,8 +147,6 @@ hotrBinding = Object.assign(hotrBinding, {
     const data = state.enableCTypes
       ? hot.getData()
       : [Object.values(state.headers[0])].concat(hot.getData());
-    console.log(userSelectedCols);
-    console.log(data);
     return JSON.stringify(parseHotInput(data, userSelectedCols));
   },
   subscribe: function(el, callback) {
