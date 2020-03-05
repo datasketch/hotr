@@ -1,6 +1,5 @@
 library(shiny)
 library(hotr)
-library(datafringe)
 
 ui <- fluidPage(
   column(4,
