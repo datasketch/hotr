@@ -15,6 +15,7 @@ hotrBinding = Object.assign(hotrBinding, {
     const params = formatDataParams(el);
     state.enableCTypes = params.hotOpts.enableCTypes;
     state.headers = params.dataHeaders;
+
     const hotSettings = {
       licenseKey: 'non-commercial-and-evaluation',
       data: state.enableCTypes
@@ -27,16 +28,19 @@ hotrBinding = Object.assign(hotrBinding, {
         params.hotOpts.width ||
         $(el)
           .parent()
+          .parent()
           .width(),
       height:
         params.hotOpts.height ||
         $(el)
+          .parent()
           .parent()
           .height(),
       // 23px is the default height defined by Handsontable
       minSpareRows:
         Math.floor(
           $(el)
+            .parent()
             .parent()
             .height() / 23
         ) - params.dataObject.length,
