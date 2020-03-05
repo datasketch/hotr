@@ -109,3 +109,15 @@ hotr <- function(inputId,
              `data-dic` = htmltools::HTML(json_dic))
 }
 
+#' @export
+hotr_table <- function(x, selected = FALSE){
+  d <- x$data
+  names(d) <- x$dic$label
+  if(selected && (nrow(x$selected) > 0)){
+    d <- d[,x$selected$label, drop = FALSE]
+  }
+  d
+}
+
+
+

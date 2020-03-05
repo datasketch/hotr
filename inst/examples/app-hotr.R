@@ -21,6 +21,7 @@ server <- function(input,output,session){
 
   output$debug <- renderPrint({
     str(input$indata1)
+    hotr_table(input$indata1, selected = TRUE)
   })
 }
 shinyApp(ui,server)
