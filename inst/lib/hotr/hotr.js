@@ -1,11 +1,5 @@
 let hotrBinding = new Shiny.InputBinding();
 let handleSubscribe = null;
-let state = {
-  userSelectedColumns: null,
-  hotInstance: null,
-  headers: null,
-  enableCTypes: null
-};
 
 hotrBinding = Object.assign(hotrBinding, {
   find: function(scope) {
@@ -13,14 +7,15 @@ hotrBinding = Object.assign(hotrBinding, {
   },
   initialize: function(el) {
     const params = formatDataParams(el);
-    state.enableCTypes = params.hotOpts.enableCTypes;
-    state.headers = params.dataHeaders;
+    el.dataset.enableCtypes = params.hotOpts.enableCTypes;
+    el.dataset.headers = JSON.stringify(params.dataHeaders);
+    el.dataset.userSelectedColums = JSON.stringify([]);
 
     const hotSettings = {
       licenseKey: 'non-commercial-and-evaluation',
-      data: state.enableCTypes
-        ? state.headers.concat(params.dataObject)
-        : [state.headers[1]].concat(params.dataObject),
+      data: params.hotOpts.enableCTypes
+        ? params.dataHeaders.concat(params.dataObject)
+        : [params.dataHeaders[1]].concat(params.dataObject),
       columns: params.dataDic,
       manualRowMove: params.hotOpts.manualRowMove,
       manualColumnMove: params.hotOpts.manualColumnMove,
@@ -49,14 +44,14 @@ hotrBinding = Object.assign(hotrBinding, {
       colHeaders: true,
       dropdownMenu: true,
       filters: true,
-      fixedRowsTop: state.enableCTypes ? 2 : 1,
+      fixedRowsTop: params.hotOpts.enableCTypes ? 2 : 1,
       manualColumnFreeze: true, // Needed for context menu's freeze_column and unfreeze_column options to work
       contextMenu: true,
       // columnSorting: true,
       sortIndicator: true,
       cells: function(row, col, prop) {
         if (row === 0) {
-          if (!state.enableCTypes) {
+          if (!params.hotOpts.enableCTypes) {
             this.renderer = headRenderer;
             this.validator = null;
             return this;
@@ -68,7 +63,7 @@ hotrBinding = Object.assign(hotrBinding, {
           return this;
         }
         if (row === 1) {
-          if (!state.enableCTypes) {
+          if (!params.hotOpts.enableCTypes) {
             return this;
           }
           this.renderer = headRenderer;
@@ -112,8 +107,9 @@ hotrBinding = Object.assign(hotrBinding, {
           !cols.includes(col) && cols.push(col);
           return cols;
         }, []);
-        // Filter dictionary and save under global state object
-        state.userSelectedColums = filterDict.apply(this, [selected]);
+        // Filter dictionary and save under data-user-selected-columns el attr
+        const userSelectedColums = filterDict.apply(this, [selected]);
+        el.dataset.userSelectedColums = JSON.stringify(userSelectedColums);
       },
       afterChange: function onChange(changes, source) {
         if (!changes) {
@@ -142,16 +138,18 @@ hotrBinding = Object.assign(hotrBinding, {
       });
     };
     const hot = new Handsontable(el, hotSettings);
-    state.hotInstance = hot;
-    state.hotInstance.validateCells();
+    window[el.id] = hot;
+    window[el.id].validateCells();
   },
   getValue: function(el) {
-    const hot = state.hotInstance;
-    const userSelectedCols = state.userSelectedColums;
-    const data = state.enableCTypes
+    const enableCtypes = JSON.parse(el.dataset.enableCtypes);
+    const headers = JSON.parse(el.dataset.headers);
+    const userSelectedColums = JSON.parse(el.dataset.userSelectedColums);
+    const hot = window[el.id];
+    const data = enableCtypes
       ? hot.getData()
-      : [Object.values(state.headers[0])].concat(hot.getData());
-    return JSON.stringify(parseHotInput(data, userSelectedCols));
+      : [Object.values(headers[0])].concat(hot.getData());
+    return JSON.stringify(parseHotInput(data, userSelectedColums));
   },
   subscribe: function(el, callback) {
     handleSubscribe = function(event) {
