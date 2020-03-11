@@ -49,7 +49,7 @@ hotrBinding = Object.assign(hotrBinding, {
       colHeaders: true,
       dropdownMenu: true,
       filters: true,
-      fixedRowsTop: 2,
+      fixedRowsTop: state.enableCTypes ? 2 : 1,
       manualColumnFreeze: true, // Needed for context menu's freeze_column and unfreeze_column options to work
       contextMenu: true,
       // columnSorting: true,
