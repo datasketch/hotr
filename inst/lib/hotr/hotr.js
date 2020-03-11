@@ -52,7 +52,7 @@ hotrBinding = Object.assign(hotrBinding, {
       fixedRowsTop: 2,
       manualColumnFreeze: true, // Needed for context menu's freeze_column and unfreeze_column options to work
       contextMenu: true,
-      columnSorting: true,
+      // columnSorting: true,
       sortIndicator: true,
       cells: function(row, col, prop) {
         if (row === 0) {
