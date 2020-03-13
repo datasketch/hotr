@@ -42,13 +42,25 @@ hotrBinding = Object.assign(hotrBinding, {
       stretchH: 'all',
       rowHeaders: true,
       colHeaders: true,
-      dropdownMenu: true,
-      filters: true,
+      // dropdownMenu: true,
+      // filters: true,
       fixedRowsTop: params.hotOpts.enableCTypes ? 2 : 1,
       manualColumnFreeze: true, // Needed for context menu's freeze_column and unfreeze_column options to work
-      contextMenu: true,
+      contextMenu: [
+        'row_above',
+        'row_below',
+        '---------',
+        'remove_row',
+        '---------',
+        'undo',
+        'redo',
+        'alignment',
+        '---------',
+        'freeze_column',
+        'unfreeze_column'
+      ],
       // columnSorting: true,
-      sortIndicator: true,
+      // sortIndicator: true,
       cells: function(row, col, prop) {
         if (row === 0) {
           if (!params.hotOpts.enableCTypes) {
