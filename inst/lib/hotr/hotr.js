@@ -40,7 +40,12 @@ hotrBinding = Object.assign(hotrBinding, {
             .height() / 23
         ) - params.dataObject.length,
       stretchH: 'all',
-      rowHeaders: true,
+      rowHeaders: function(index) {
+        if (!params.hotOpts.enableCTypes) {
+          return !index ? '' : index;
+        }
+        return (!index || index === 1) ? '' : index - 1;
+      },
       colHeaders: true,
       // dropdownMenu: true,
       // filters: true,
