@@ -39,8 +39,8 @@ hotr <- function(inputId,
                  data = NULL,
                  dic = NULL,
                  options = NULL,
-                 enableCTypes = FALSE,
-                 ctypes = c('Num', 'Cat', 'Dat', 'Gnm', 'Gcd'),
+                 enable_hdTypes = FALSE,
+                 hdTypes = NULL,
                  order = NULL, ...){
 
   if(is.null(data)) return()
@@ -51,15 +51,16 @@ hotr <- function(inputId,
     width = NULL,
     manualRowMove = TRUE,
     manualColumnMove = TRUE,
-    enableCTypes = enableCTypes,
-    ctypes = ctypes
+    enable_hdTypes = enable_hdTypes,
+    hdTypes = hdTypes
   )
 
   if (is.null(order)) data <- data
   data <- data %>% dplyr::select(order, everything())
 
 
-  f <- datafringe::fringe(data)
+  f <- homodatum::fringe(data)
+  # f <- homodatum::fringe(data, dic = dic)
 
   options <- modifyList(defaultOpts, options %||% list())
 
@@ -74,15 +75,14 @@ hotr <- function(inputId,
 
   id <- inputId
 
-  data <- f$d
-
-
-
-  dic <- dic %||% f$dic_$d
-  dic$id <- letters[1:ncol(data)]
+  data <- homodatum::fringe_data(f)
+  dic <- homodatum::fringe_dic(f)
+  # dic$id <- letters[1:ncol(data)]
 
   json_opts <- jsonlite::toJSON(options, auto_unbox = TRUE)
   json_table <- jsonlite::toJSON(data, auto_unbox = TRUE)
+  # Quick fix. Check with vctrs as JOSN
+  dic$hdType <- as.character(dic$hdType)
   json_dic <- jsonlite::toJSON(dic, auto_unbox = TRUE)
   l <- shiny::tagList(
     shiny::singleton(

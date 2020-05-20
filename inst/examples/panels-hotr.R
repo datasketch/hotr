@@ -1,6 +1,5 @@
 library(shiny)
 library(hotr)
-library(datafringe)
 library(shinypanels)
 
 styles <- "

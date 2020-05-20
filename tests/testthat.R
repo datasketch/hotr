@@ -1,4 +1,4 @@
 library(testthat)
-library(datafringe)
+library(hotr)
 
 test_check("hotr")

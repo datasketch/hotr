@@ -14,7 +14,7 @@
       NULL
     else{
       x <- jsonlite::fromJSON(x)
-      # Update selected ctype from dic coming from js
+      # Update selected hdtype from dic coming from js
       # This can be done in js too, make sure dic is updated
       # window.userSelectedColumns = filterDict.apply(this, [selected])
 

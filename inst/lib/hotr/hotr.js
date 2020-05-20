@@ -7,13 +7,13 @@ hotrBinding = Object.assign(hotrBinding, {
   },
   initialize: function(el) {
     const params = formatDataParams(el);
-    el.dataset.enableCtypes = params.hotOpts.enableCTypes;
+    el.dataset.enable_hdTypes = params.hotOpts.enable_hdTypes;
     el.dataset.headers = JSON.stringify(params.dataHeaders);
     el.dataset.userSelectedColums = JSON.stringify([]);
 
     const hotSettings = {
       licenseKey: 'non-commercial-and-evaluation',
-      data: params.hotOpts.enableCTypes
+      data: params.hotOpts.enable_hdTypes
         ? params.dataHeaders.concat(params.dataObject)
         : [params.dataHeaders[1]].concat(params.dataObject),
       columns: params.dataDic,
@@ -41,7 +41,7 @@ hotrBinding = Object.assign(hotrBinding, {
         ) - params.dataObject.length,
       stretchH: 'all',
       rowHeaders: function(index) {
-        if (!params.hotOpts.enableCTypes) {
+        if (!params.hotOpts.enable_hdTypes) {
           return !index ? '' : index;
         }
         return (!index || index === 1) ? '' : index - 1;
@@ -49,7 +49,7 @@ hotrBinding = Object.assign(hotrBinding, {
       colHeaders: true,
       // dropdownMenu: true,
       // filters: true,
-      fixedRowsTop: params.hotOpts.enableCTypes ? 2 : 1,
+      fixedRowsTop: params.hotOpts.enable_hdTypes ? 2 : 1,
       manualColumnFreeze: true, // Needed for context menu's freeze_column and unfreeze_column options to work
       contextMenu: [
         'row_above',
@@ -68,34 +68,34 @@ hotrBinding = Object.assign(hotrBinding, {
       // sortIndicator: true,
       cells: function(row, col, prop) {
         if (row === 0) {
-          if (!params.hotOpts.enableCTypes) {
+          if (!params.hotOpts.enable_hdTypes) {
             this.renderer = headRenderer;
             this.validator = null;
             return this;
           }
-          this.renderer = ctypeRenderer;
+          this.renderer = hdTypeRenderer;
           this.type = 'dropdown';
-          this.source = params.hotOpts.ctypes;
+          this.source = params.hotOpts.hdTypes;
           this.validator = null;
           return this;
         }
         if (row === 1) {
-          if (!params.hotOpts.enableCTypes) {
+          if (!params.hotOpts.enable_hdTypes) {
             return this;
           }
           this.renderer = headRenderer;
           this.validator = null;
           return this;
         }
-        // Get current ctype
-        var ctype = this.instance.getDataAtCell(0, col);
-        if (ctype == 'Num') {
+        // Get current hdType
+        var hdType = this.instance.getDataAtCell(0, col);
+        if (hdType == 'Num') {
           this.validator = valiNumeric;
         }
-        if (ctype == 'Cat') {
+        if (hdType == 'Cat') {
           this.validator = valiCategoric;
         }
-        if (ctype == 'Dat') {
+        if (hdType == 'Dat') {
           this.validator = valiDate;
         }
       },
@@ -159,11 +159,11 @@ hotrBinding = Object.assign(hotrBinding, {
     window[el.id].validateCells();
   },
   getValue: function(el) {
-    const enableCtypes = JSON.parse(el.dataset.enableCtypes);
+    const enable_hdTypes = JSON.parse(el.dataset.enable_hdTypes);
     const headers = JSON.parse(el.dataset.headers);
     const userSelectedColums = JSON.parse(el.dataset.userSelectedColums);
     const hot = window[el.id];
-    const data = enableCtypes
+    const data = enable_hdTypes
       ? hot.getData()
       : [Object.values(headers[0])].concat(hot.getData());
     return JSON.stringify(parseHotInput(data, userSelectedColums));

@@ -1,5 +1,5 @@
 // More renderers https://handsontable.com/blog/articles/getting-started-with-cell-renderers
-const ctypeRenderer = function(
+const hdTypeRenderer = function(
   instance,
   td,
   row,
@@ -9,7 +9,7 @@ const ctypeRenderer = function(
   cellProperties
 ) {
   Handsontable.renderers.DropdownRenderer.apply(this, arguments);
-  td.className = 'table-ctype';
+  td.className = 'table-hdType';
 };
 
 // https://docs.handsontable.com/5.0.1/tutorial-cell-types.html
@@ -79,7 +79,7 @@ function formatDataParams(el) {
   let dataHeaders = [];
   dataHeaders[0] = dataDic.slice().reduce(function(final, item) {
     item.data = item.id;
-    final[item.data] = item.ctype;
+    final[item.data] = item.hdType;
     return final;
   }, {});
   dataHeaders[1] = dataDic.slice().reduce(function(final, item) {
@@ -110,7 +110,7 @@ function parseHotInput(d, userSelectedCols) {
   }
 
   function dicToDataframe(arr) {
-    return arrayToObj(transpose(arr), ['ctype', 'label', 'id']);
+    return arrayToObj(transpose(arr), ['hdType', 'label', 'id']);
   }
 
   function arrayToObj(arr, keys) {

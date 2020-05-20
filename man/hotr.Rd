@@ -9,8 +9,8 @@ hotr(
   data = NULL,
   dic = NULL,
   options = NULL,
-  enableCTypes = FALSE,
-  ctypes = c("Num", "Cat", "Dat", "Gnm", "Gcd"),
+  enable_hdTypes = FALSE,
+  hdTypes = NULL,
   order = NULL,
   ...
 )
