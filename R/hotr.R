@@ -40,7 +40,7 @@ hotr <- function(inputId,
                  dic = NULL,
                  options = NULL,
                  enable_hdTypes = FALSE,
-                 hdTypes = NULL,
+                 hdTypes = c("Cat","Dat","Num"),
                  order = NULL, ...){
 
   if(is.null(data)) return()
