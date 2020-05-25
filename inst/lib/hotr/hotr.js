@@ -12,7 +12,7 @@ hotrBinding = Object.assign(hotrBinding, {
     el.dataset.userSelectedColums = JSON.stringify([]);
 
     // With panels-hotr as-is this is what data will look like
-    console.log([params.dataHeaders[1]].concat(params.dataObject));
+    console.log("no hdtypes: ",[params.dataHeaders[1]].concat(params.dataObject));
 
     const hotSettings = {
       licenseKey: 'non-commercial-and-evaluation',
@@ -168,10 +168,8 @@ hotrBinding = Object.assign(hotrBinding, {
     const hot = window[el.id];
     console.log('getValue');
     console.log(hot.getData());
-    const data = enable_hdTypes
-      ? hot.getData()
-      : Object.values(headers[0]).concat(hot.getData());
-    return JSON.stringify(parseHotInput(data, userSelectedColums));
+    const data = hot.getData();
+    return JSON.stringify(parseHotInput(data, enable_hdTypes, userSelectedColums));
   },
   subscribe: function(el, callback) {
     handleSubscribe = function(event) {

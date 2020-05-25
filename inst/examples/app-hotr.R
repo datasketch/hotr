@@ -6,21 +6,23 @@ ui <- fluidPage(
          verbatimTextOutput("debug")
   ),
   column(4,
-        uiOutput('dstable')
+         hotr("indata1", data = cars, enable_hdTypes = FALSE),
+         br()
   ),
   column(4,
-         hotr("indata2", data = cars)
+        uiOutput('dstable')
   )
 )
 server <- function(input,output,session){
 
   output$dstable <- renderUI({
-    hotr("indata1", data = mtcars, options = list(height = 300), order = c('cyl'))
+    hotr("indata2", data = mtcars, options = list(height = 300),
+         order = c('cyl'), enable_hdTypes = TRUE)
   })
 
   output$debug <- renderPrint({
     str(cars)
-    str(input$indata1)
+    str(input$indata2)
     hotr_table(input$indata1, selected = FALSE)
   })
 }

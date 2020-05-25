@@ -52,15 +52,16 @@ hotr <- function(inputId,
     manualRowMove = TRUE,
     manualColumnMove = TRUE,
     enable_hdTypes = enable_hdTypes,
-    hdTypes = hdTypes
+    hdTypes = hdTypes,
+    height = 400
   )
 
   if (is.null(order)) data <- data
-  data <- data %>% dplyr::select(order, everything())
+  data <- data %>% dplyr::select(all_of(order), everything())
 
 
-  f <- homodatum::fringe(data)
-  # f <- homodatum::fringe(data, dic = dic)
+  #f <- homodatum::fringe(data)
+  f <- homodatum::fringe(data, dic = dic)
 
   options <- modifyList(defaultOpts, options %||% list())
 
@@ -75,13 +76,14 @@ hotr <- function(inputId,
 
   id <- inputId
 
-  data <- homodatum::fringe_data(f)
+  data <- homodatum::fringe_d(f)
   dic <- homodatum::fringe_dic(f)
+  dic$id_letter <- names(data)
   # dic$id <- letters[1:ncol(data)]
 
   json_opts <- jsonlite::toJSON(options, auto_unbox = TRUE)
   json_table <- jsonlite::toJSON(data, auto_unbox = TRUE)
-  # Quick fix. Check with vctrs as JOSN
+  # Quick fix. Check with vctrs as JSON
   dic$hdType <- as.character(dic$hdType)
   json_dic <- jsonlite::toJSON(dic, auto_unbox = TRUE)
   l <- shiny::tagList(

@@ -18,11 +18,11 @@
       # This can be done in js too, make sure dic is updated
       # window.userSelectedColumns = filterDict.apply(this, [selected])
 
-      selected_ids <- x$selected$id
-      selected <- x$dic %>% filter(id %in% selected_ids)
+      # selected_ids <- x$selected$id
+      # selected <- x$dic %>% filter(id %in% selected_ids)
       list(data = x$data,
            dic = x$dic,
-           selected = selected
+           selected = NULL #selected
       )
     }
   }, force = TRUE)

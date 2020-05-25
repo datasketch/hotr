@@ -22,7 +22,7 @@ Imports:
     grDevices,
     purrr,
     homodatum,
-    tibble
+    dplyr
 Suggests:
     rlang,
     testthat

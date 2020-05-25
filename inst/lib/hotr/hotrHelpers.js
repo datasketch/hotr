@@ -78,15 +78,18 @@ function formatDataParams(el) {
   const hotOpts = JSON.parse(el.dataset.hotopts);
   let dataHeaders = [];
   dataHeaders[0] = dataDic.slice().reduce(function(final, item) {
-    item.data = item.id;
+    item.data = item.id_letter;
     final[item.data] = item.hdType;
     return final;
   }, {});
   dataHeaders[1] = dataDic.slice().reduce(function(final, item) {
-    item.data = item.id;
+    item.data = item.id_letter;
     final[item.data] = item.label;
     return final;
   }, {});
+
+  //console.log("dataDic: ", dataDic)
+  //console.log("dataHeaders: ", dataHeaders)
 
   const dataObject = dataInput;
 
@@ -98,19 +101,25 @@ function formatDataParams(el) {
   };
 }
 
-function parseHotInput(d, userSelectedCols) {
+function parseHotInput(d, enable_hdTypes, userSelectedCols) {
+
+  const split_idx = enable_hdTypes ? 2 : 1;
+
+  // console.log("parseHotInput", arrayToObj(d.slice(split_idx),["a","b"]))
   var letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
   var ncols = d[0].length;
   var letter_ids = letters.slice(0, ncols);
-  var dic = d.slice(0, 2).concat([letter_ids]);
-  var data = d.slice(2);
+  var dic = d.slice(0, split_idx).concat([letter_ids]);
+  var data = d.slice(split_idx);
 
   function transpose(matrix) {
     return matrix[0].map((col, i) => matrix.map(row => row[i]));
   }
 
   function dicToDataframe(arr) {
-    return arrayToObj(transpose(arr), ['hdType', 'label', 'id']);
+    console.log("dicToDataframe Arr", arr)
+    const dicKeys = enable_hdTypes ? ['hdType', 'label', 'id'] : ['label', 'id'] 
+    return arrayToObj(transpose(arr), dicKeys);
   }
 
   function arrayToObj(arr, keys) {
@@ -123,15 +132,9 @@ function parseHotInput(d, userSelectedCols) {
     });
   }
 
-  var dic_ = dicToDataframe(dic);
-
   //SELECT columns at random
-  var shuffled = dic_.sort(() => 0.5 - Math.random()); // shuffle
+  var shuffled = dicToDataframe(dic).sort(() => 0.5 - Math.random()); // shuffle
   var selected = shuffled.slice(0, 2); //get sub-array of first n elements AFTER shuffle
-  // console.log('Selected columns');
-  // console.log(selected);
-  // console.log('Data')
-  // console.log(JSON.stringify(arrayToObj(data, letter_ids)));
 
   return {
     data: arrayToObj(data, letter_ids),
