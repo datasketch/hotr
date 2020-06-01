@@ -7,10 +7,12 @@ ui <- fluidPage(
   ),
   column(4,
          hotr("indata1", data = cars, enable_hdTypes = FALSE),
+         verbatimTextOutput("debug_input1"),
          br()
   ),
   column(4,
-        uiOutput('dstable')
+        uiOutput('dstable'),
+        verbatimTextOutput("debug_input2")
   )
 )
 server <- function(input,output,session){
@@ -21,10 +23,20 @@ server <- function(input,output,session){
   })
 
   output$debug <- renderPrint({
-    str(cars)
+    str(input$indata1)
     str(input$indata2)
-    hotr_table(input$indata1, selected = FALSE)
   })
+
+  output$debug_input1 <- renderPrint({
+    hotr_table(input$indata1)
+    hotr_fringe(input$indata1)
+  })
+
+  output$debug_input2 <- renderPrint({
+    hotr_table(input$indata2)
+    hotr_fringe(input$indata2)
+  })
+
 }
 shinyApp(ui,server)
 

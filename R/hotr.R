@@ -121,5 +121,17 @@ hotr_table <- function(x, selected = FALSE){
   d
 }
 
+#' @export
+hotr_fringe <- function(x, selected = FALSE){
+  d <- x$data
+  names(d) <- x$dic$label
+  if(selected && (nrow(x$selected) > 0)){
+    d <- d[,x$selected$label, drop = FALSE]
+  }
+  homodatum::fringe(x$data, dic = x$dic)
+}
+
+
+
 
 
