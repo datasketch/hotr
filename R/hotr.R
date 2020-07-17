@@ -56,9 +56,11 @@ hotr <- function(inputId,
     height = 400
   )
 
-  if (is.null(order)) data <- data
-  data <- data %>% dplyr::select(all_of(order), everything())
-
+  if (is.null(order)) {
+    data <- data
+  } else {
+    data <- data %>% dplyr::select(all_of(order), everything())
+  }
 
   #f <- homodatum::fringe(data)
   f <- homodatum::fringe(data, dic = dic)
