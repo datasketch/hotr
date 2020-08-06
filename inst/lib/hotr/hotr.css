@@ -1,24 +1,41 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway');
+/*@import url('https://fonts.googleapis.com/css?family=Raleway');*/
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;700&display=swap');
 
 .handsontable {
-  color: #8097A4;
-  font-family: 'Raleway', sans-serif;
+  color: #435b69;
+  font-family: 'IBM Plex Sans', sans-serif;
   font-size: 0.875rem;
+  font-weight: 300;
   max-width: 100%;
+  border-collapse: collapse;
 }
 
 .handsontable th {
-  background-color: #EEF3F5;
-  color: #8097A4;
-  font-size: 1rem;
+  background-color: #eef3f5;
+  color: #435b69;
+  font-size: 0.875rem;
 }
 
-.handsontable td.table-hdType {
+/*.handsontable td.table-hdType {
   background-color: #0e0329;
   color: #a6cede;
-}
+}*/
 
 .handsontable td.table-header {
-  background-color:#dddddd;
-  color:#b70f7f;
+  background-color:#eef3f5;
+  color: #435b69;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+/*.handsontable, .handsontable th, .handsontable td {
+  border: 1px solid #e6eaed;
+}*/
+
+.handsontable tr td, .handsontable tr, .handsontable tr th {
+  border-color: #e6eaed !important;
+}
+
+.handsontable td, .handsontable th {
+  border-color: #e6eaed !important;
 }
