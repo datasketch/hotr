@@ -13,7 +13,7 @@
 .handsontable th {
   background-color: #eef3f5;
   color: #435b69;
-  font-size: 0.875rem;
+  font-size: 0.75rem !important;
 }
 
 /*.handsontable td.table-hdType {
@@ -38,4 +38,5 @@
 
 .handsontable td, .handsontable th {
   border-color: #e6eaed !important;
+  vertical-align: middle !important;
 }
