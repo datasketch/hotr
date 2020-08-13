@@ -1,6 +1,6 @@
 library(shiny)
 library(hotr)
-library(datafringe)
+library(homodatum)
 
 ui <- fluidPage(
   column(4,

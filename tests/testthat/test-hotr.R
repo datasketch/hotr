@@ -30,9 +30,9 @@ test_that("Dictionary", {
                             )
   tagTable <- hotr(inputId = "id_tabla", data = endemic_data, dic = endemic_dic)
 
-  labels_dic <- strsplit(as.character(tagTable$attribs$`data-dic`), ",")[[1]]
-  expect_equal(sum(grepl(paste0(endemic_dic$label, collapse = "|"), labels_dic)), ncol(endemic_data)  )
-
+  dic_json <- jsonlite::fromJSON(as.character(tagTable$attribs$`data-dic`))
+  expect_equal(dic_json$label, endemic_dic$label)
+  expect_equal(dic_json$id, endemic_dic$id)
 })
 
 

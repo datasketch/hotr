@@ -116,6 +116,7 @@ hotr <- function(inputId,
 #' @export
 hotr_table <- function(x, selected = FALSE){
   d <- x$data
+  d <- discard_all_na_rows(d)
   names(d) <- x$dic$label
   if(selected && (nrow(x$selected) > 0)){
     d <- d[,x$selected$label, drop = FALSE]
@@ -126,6 +127,7 @@ hotr_table <- function(x, selected = FALSE){
 #' @export
 hotr_fringe <- function(x, selected = FALSE){
   d <- x$data
+  d <- discard_all_na_rows(d)
   names(d) <- x$dic$label
   if(selected && (nrow(x$selected) > 0)){
     d <- d[,x$selected$label, drop = FALSE]

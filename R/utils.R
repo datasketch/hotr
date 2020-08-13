@@ -12,3 +12,7 @@
 is.empty <- function (x){
   !as.logical(length(x))
 }
+
+discard_all_na_rows <- function(d){
+  d %>% filter(apply(., 1, function(x) !all(is.na(x))))
+}
