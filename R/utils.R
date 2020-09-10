@@ -14,5 +14,5 @@ is.empty <- function (x){
 }
 
 discard_all_na_rows <- function(d){
-  d %>% filter(apply(., 1, function(x) !all(is.na(x))))
+  d %>% dplyr::filter(apply(., 1, function(x) !all(is.na(x))))
 }
