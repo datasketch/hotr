@@ -43,7 +43,7 @@ hotr <- function(inputId,
                  hdTypes = c("Cat","Dat","Num"),
                  order = NULL, ...){
 
-  if(is.null(data)) return()
+  #if(is.null(data)) return()
   if(shiny::is.reactive(data))
     data <- data()
   defaultOpts <- list(
@@ -55,7 +55,7 @@ hotr <- function(inputId,
     hdTypes = hdTypes,
     height = 400
   )
-
+  if (is.null(data)) return()
   if (is.null(order)) {
     data <- data
   } else {
