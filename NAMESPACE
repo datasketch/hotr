@@ -3,5 +3,6 @@
 export(hotr)
 export(hotr_fringe)
 export(hotr_table)
+export(updateHotr)
 importFrom(shiny,addResourcePath)
 importFrom(shiny,registerInputHandler)

@@ -64,7 +64,7 @@ hotr <- function(inputId,
 
   #f <- homodatum::fringe(data)
   f <- homodatum::fringe(data, dic = dic)
-
+ #print(f)
   options <- modifyList(defaultOpts, options %||% list())
 
   addResourcePath(
@@ -78,8 +78,9 @@ hotr <- function(inputId,
 
   id <- inputId
 
-  data <- homodatum::fringe_d(f)
-  dic <- homodatum::fringe_dic(f)
+  data <- homodatum::fringe_data(f)
+
+  dic <- homodatum::fringe_dic(f, id_letters = T)
   dic$id_letter <- names(data)
   # dic$id <- letters[1:ncol(data)]
 
@@ -136,6 +137,11 @@ hotr_fringe <- function(x, selected = FALSE){
 }
 
 
-
+#' Update hotr
+#' @export
+updateHotr <- function (session, inputId, enable_hdTypes = FALSE, order = NULL) {
+  message <- dropNulls(list(enable_hdTypes = enable_hdTypes, order = order))
+  session$sendInputMessage(inputId, message)
+}
 
 

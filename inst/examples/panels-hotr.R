@@ -12,7 +12,7 @@ ui <- panelsPage(
   styles = styles,
   panel(title = "First Panel", color = "chardonnay", collapsed = FALSE, width =  350,
         head = NULL,
-        body = verbatimTextOutput('test'),
+        body = verbatimTextOutput('dic'),
         footer = NULL
   ),
   panel(title = "Second panel", color = "chardonnay", collapsed = FALSE, width = 350,
@@ -24,6 +24,7 @@ ui <- panelsPage(
 
 server <- function(input, output, session) {
   output$test <- renderPrint(input$`hot-table`)
+  output$dic <- renderPrint(input$`hot-table`$dic)
 }
 shinyApp(ui,server)
 
