@@ -16,3 +16,15 @@ is.empty <- function (x){
 discard_all_na_rows <- function(d){
   d %>% dplyr::filter(apply(., 1, function(x) !all(is.na(x))))
 }
+
+# dropNulls
+dropNulls <- function(x) {
+  x[!vapply(x, is.null, FUN.VALUE = logical(1))]
+}
+
+dropNullsOrNA <- function(x) {
+  x[!vapply(x, nullOrNA, FUN.VALUE = logical(1))]
+}
+nullOrNA <- function(x) {
+  is.null(x) || is.na(x)
+}
