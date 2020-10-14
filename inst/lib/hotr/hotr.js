@@ -2,17 +2,18 @@ let hotrBinding = new Shiny.InputBinding();
 let handleSubscribe = null;
 
 hotrBinding = Object.assign(hotrBinding, {
-  find: function(scope) {
+  find: function (scope) {
     return $(scope).find('.hot');
   },
-  initialize: function(el) {
+  initialize: function (el) {
     const params = formatDataParams(el);
     el.dataset.enable_hdTypes = params.hotOpts.enable_hdTypes;
     el.dataset.headers = JSON.stringify(params.dataHeaders);
     el.dataset.userSelectedColums = JSON.stringify([]);
+    el.dataset.dic = JSON.stringify(params.dataDic);
 
     // With panels-hotr as-is this is what data will look like
-    console.log("no hdtypes: ",[params.dataHeaders[1]].concat(params.dataObject));
+    // console.log("no hdtypes: ",[params.dataHeaders[1]].concat(params.dataObject));
 
     const hotSettings = {
       licenseKey: 'non-commercial-and-evaluation',
@@ -43,7 +44,7 @@ hotrBinding = Object.assign(hotrBinding, {
             .height() / 23
         ) - params.dataObject.length,
       stretchH: 'all',
-      rowHeaders: function(index) {
+      rowHeaders: function (index) {
         if (!params.hotOpts.enable_hdTypes) {
           return !index ? '' : index;
         }
@@ -69,7 +70,7 @@ hotrBinding = Object.assign(hotrBinding, {
       ],
       // columnSorting: true,
       // sortIndicator: true,
-      cells: function(row, col, prop) {
+      cells: function (row, col, prop) {
         if (row === 0) {
           if (!params.hotOpts.enable_hdTypes) {
             this.renderer = headRenderer;
@@ -103,7 +104,7 @@ hotrBinding = Object.assign(hotrBinding, {
         }
       },
       // Bind event after selection
-      afterSelectionEnd: function(
+      afterSelectionEnd: function (
         startRow,
         startColumn,
         endRow,
@@ -116,13 +117,13 @@ hotrBinding = Object.assign(hotrBinding, {
         var selected = {};
         // If greater than 0, the user selected multiple columns using CTRL key
         selected.layer = layer;
-        selected.columns = this.getSelected().reduce(function(cols, range) {
+        selected.columns = this.getSelected().reduce(function (cols, range) {
           cols.push(range[1]); // Start column
           cols.push(range[3]); // End column
           return cols;
         }, []);
         // Unique values
-        selected.columns = selected.columns.reduce(function(cols, col) {
+        selected.columns = selected.columns.reduce(function (cols, col) {
           // Short-circuit evaluation
           !cols.includes(col) && cols.push(col);
           return cols;
@@ -136,7 +137,7 @@ hotrBinding = Object.assign(hotrBinding, {
           return;
         }
         const instance = this;
-        changes.forEach(function(change) {
+        changes.forEach(function (change) {
           const row = change[0];
           const col = change[1];
           const colIdx = instance.propToCol(col);
@@ -146,14 +147,14 @@ hotrBinding = Object.assign(hotrBinding, {
         });
       }
     };
-    var filterDict = function(info) {
+    var filterDict = function (info) {
       const props = [];
       const self = this;
-      info.columns.map(function(col) {
+      info.columns.map(function (col) {
         let meta = self.getCellMeta(0, col);
         props.push(meta.prop);
       });
-      return params.dataDic.filter(function(item) {
+      return params.dataDic.filter(function (item) {
         return props.includes(item.id);
       });
     };
@@ -161,28 +162,27 @@ hotrBinding = Object.assign(hotrBinding, {
     window[el.id] = hot;
     window[el.id].validateCells();
   },
-  getValue: function(el) {
+  getValue: function (el) {
     const enable_hdTypes = JSON.parse(el.dataset.enable_hdTypes);
-    const headers = JSON.parse(el.dataset.headers);
     const userSelectedColums = JSON.parse(el.dataset.userSelectedColums);
+    const dic = JSON.parse(el.dataset.dic);
     const hot = window[el.id];
-    console.log('getValue');
-    console.log(hot.getData());
     const data = hot.getData();
-    return JSON.stringify(parseHotInput(data, enable_hdTypes, userSelectedColums));
+    const final = parseHotInput(data, enable_hdTypes, userSelectedColums, dic);
+    return JSON.stringify(final);
   },
-  subscribe: function(el, callback) {
-    handleSubscribe = function(event) {
+  subscribe: function (el, callback) {
+    handleSubscribe = function (event) {
       callback();
     };
     el.addEventListener('change', handleSubscribe);
     el.addEventListener('click', handleSubscribe);
   },
-  unsubscribe: function(el) {
+  unsubscribe: function (el) {
     el.removeEventListener('change', handleSubscribe);
     el.removeEventListener('click', handleSubscribe);
   },
-  getType: function() {
+  getType: function () {
     return 'hotrBinding';
   }
 });
