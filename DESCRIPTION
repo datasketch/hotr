@@ -26,6 +26,8 @@ Imports:
 Suggests:
     rlang,
     testthat
+Remotes:
+    datasketch/homodatum
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
