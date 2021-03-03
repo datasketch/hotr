@@ -34,6 +34,7 @@
 #' }
 #'
 #'
+#' @importFrom dplyr %>%
 #' @export
 hotr <- function(inputId,
                  data = NULL,
