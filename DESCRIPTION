@@ -1,6 +1,6 @@
 Package: hotr
 Title: Handsontable Wrapper for Shiny Application Input 
-Version: 0.1
+Version: 0.1.0
 Authors@R: c(
    person("Juan Pablo", "Marin Diaz", email = "jpmarindiaz@gmail.com", role = "cre"),
    person("Camila", "Achuri", email = "camila@randommonkey.io", role = "aut"),
