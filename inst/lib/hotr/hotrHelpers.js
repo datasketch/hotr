@@ -124,11 +124,6 @@ Handsontable.validators.registerValidator('valiNumeric', valiNumeric);
 Handsontable.validators.registerValidator('valiCategoric', valiCategoric);
 Handsontable.validators.registerValidator('valiDate', valiDate);
 
-function createDic(data){
-	
-
-}
-
 function formatDataParams(el) {
   const dataDic = JSON.parse(el.dataset.dic);
   const dataInput = JSON.parse(el.dataset.table);
@@ -165,8 +160,6 @@ function parseHotInput(d, enable_hdTypes, userSelectedCols, dc) {
   const data = d.slice(sliceInit);
 
   const cols_old = extractColumn(dc, "label");
-  //alert(orig_idx_of_new_col_names(cols, cols_old));
-  //alert(create_new_dic(cols, cols_old, dc));
 
   function arrayToObj(arr, keys) {
     return arr.map(function (x) {
@@ -177,12 +170,6 @@ function parseHotInput(d, enable_hdTypes, userSelectedCols, dc) {
       return obj;
     });
   }
-
-  //const dic = dc.map((record, i) => ({
-  //    hdType: record.hdType,
-  //    label: record.label,
-  //    id: letters[i]
-  //  }));
 
   const dic = create_new_dic(cols, cols_old, dc);
 
