@@ -12,6 +12,43 @@ function generateColumnsLetters() {
   return colsLetters;
 }
 
+function extractColumn(arr, column) {
+  return arr.map(x => x[column]);
+}
+
+function orig_idx_of_new_col_names(new_cols, old_cols){
+  
+	var orig_idx = [];
+  
+    for (var i = 0; i < new_cols.length; i++) {
+        col_name = new_cols[i];
+        idx_in_old_col_names = old_cols.indexOf(col_name);
+        orig_idx.push(idx_in_old_col_names);
+    }
+  return orig_idx;
+}
+
+function create_new_dic (new_cols, old_cols, dic_old) {
+
+  const old_idx = orig_idx_of_new_col_names(new_cols, old_cols);
+  const letters = generateColumnsLetters();
+
+  var dic_new = [];
+  
+  for (var j = 0; j < old_idx.length; j++) {
+        k = old_idx[j];
+        if(k === -1){ 
+          label = new_cols[j];
+          hdType = dic_old[j].hdType;
+        } else {
+          label = dic_old[k].label;
+          hdType = dic_old[k].hdType;
+        }
+        dic_new[j] = {hdType: hdType, label: label, id: letters[j]};
+    }
+  
+  return dic_new;
+}
 
 // More renderers https://handsontable.com/blog/articles/getting-started-with-cell-renderers
 const hdTypeRenderer = function (
@@ -87,6 +124,11 @@ Handsontable.validators.registerValidator('valiNumeric', valiNumeric);
 Handsontable.validators.registerValidator('valiCategoric', valiCategoric);
 Handsontable.validators.registerValidator('valiDate', valiDate);
 
+function createDic(data){
+	
+
+}
+
 function formatDataParams(el) {
   const dataDic = JSON.parse(el.dataset.dic);
   const dataInput = JSON.parse(el.dataset.table);
@@ -117,20 +159,14 @@ function parseHotInput(d, enable_hdTypes, userSelectedCols, dc) {
   const sliceInit = enable_hdTypes ? 2 : 1;
 
   const letters = generateColumnsLetters();
-  const ncols = d[0].length;
+  const cols = d[0];
+  const ncols = cols.length;
   const letter_ids = letters.slice(0, ncols);
   const data = d.slice(sliceInit);
-  // var dic = d.slice(0, sliceInit).concat([letter_ids]);
 
-  // function transpose(matrix) {
-  //   return matrix[0].map((col, i) => matrix.map(row => row[i]));
-  // }
-
-  // function dicToDataframe(arr) {
-  //   // console.log("dicToDataframe Arr", arr)
-  //   const dicKeys = enable_hdTypes ? ['hdType', 'label', 'id'] : ['label', 'id']
-  //   return arrayToObj(transpose(arr), dicKeys);
-  // }
+  const cols_old = extractColumn(dc, "label");
+  //alert(orig_idx_of_new_col_names(cols, cols_old));
+  //alert(create_new_dic(cols, cols_old, dc));
 
   function arrayToObj(arr, keys) {
     return arr.map(function (x) {
@@ -142,13 +178,17 @@ function parseHotInput(d, enable_hdTypes, userSelectedCols, dc) {
     });
   }
 
+  //const dic = dc.map((record, i) => ({
+  //    hdType: record.hdType,
+  //    label: record.label,
+  //    id: letters[i]
+  //  }));
+
+  const dic = create_new_dic(cols, cols_old, dc);
+
   return {
     data: arrayToObj(data, letter_ids),
-    dic: dc.map((record, i) => ({
-      hdType: record.hdType,
-      label: record.label,
-      id: letters[i]
-    })),
+    dic: dic,
     selectedCols: userSelectedCols
   };
 }
