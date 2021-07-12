@@ -24,9 +24,11 @@ test_that("Dictionary", {
     endemic = c("Niceforonia", "Pseudohaetera mimica", "Psittacanthus gigas", "Atelopus simulatus",
                 "Allomaieta", "Blue Anole", "Yellow-eared Parrot"),
     type = c("Amphibians", "Insects", "Plants", "Amphibians", "Plants", "Reptiles", "Birds"),
-    random_sample = round(runif(7, 150, 10000)))
+    random_sample = round(runif(7, 150, 10000)),
+    stringsAsFactors = FALSE)
   endemic_dic <- data.frame(id = names(endemic_data),
-                            label = c('Endemic species', 'Type', 'Random Sample')
+                            label = c('Endemic species', 'Type', 'Random Sample'),
+                            stringsAsFactors = FALSE
                             )
   tagTable <- hotr(inputId = "id_tabla", data = endemic_data, dic = endemic_dic)
 
